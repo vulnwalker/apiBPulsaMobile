@@ -1,0 +1,89 @@
+{
+    "tableName": "trade_point",
+    "dumpFile": "dump\/trade_point.sql",
+    "index": [
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        },
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        },
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        },
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        },
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        },
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        },
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        }
+    ],
+    "colums": [
+        {
+            "COLUMN_NAME": "id",
+            "COLUMN_TYPE": "int(11)",
+            "CHARACTER_SET_NAME": null,
+            "COLLATION_NAME": null,
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "title",
+            "COLUMN_TYPE": "text",
+            "CHARACTER_SET_NAME": "utf8",
+            "COLLATION_NAME": "utf8_bin",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "price",
+            "COLUMN_TYPE": "int(11)",
+            "CHARACTER_SET_NAME": null,
+            "COLLATION_NAME": null,
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "description",
+            "COLUMN_TYPE": "text",
+            "CHARACTER_SET_NAME": "utf8",
+            "COLLATION_NAME": "utf8_bin",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "stock",
+            "COLUMN_TYPE": "int(11)",
+            "CHARACTER_SET_NAME": null,
+            "COLLATION_NAME": null,
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "gambar",
+            "COLUMN_TYPE": "text",
+            "CHARACTER_SET_NAME": "utf8",
+            "COLLATION_NAME": "utf8_bin",
+            "IS_NULLABLE": "NO"
+        }
+    ],
+    "default_value": [
+        "INSERT INTO trade_point (id,title,price,description,stock,gambar) values ('1','PULSA 5.000','7000','Tukarkan point anda dengan pulsa Rp. 5.000. Pulsa akan di terima dalam 1 X 24 jam setelah proses penukaran selesai.','100','http:\/\/bpulsa.rm-rf.studio\/trade.jpeg') ",
+        "INSERT INTO trade_point (id,title,price,description,stock,gambar) values ('2','PULSA 10.000','11000','Tukarkan point anda dengan pulsa Rp. 10.000. Pulsa akan di terima dalam 1 X 24 jam setelah proses penukaran selesai.','100','http:\/\/bpulsa.rm-rf.studio\/trade.jpeg') "
+    ]
+}

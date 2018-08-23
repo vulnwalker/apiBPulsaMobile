@@ -1,0 +1,58 @@
+{
+    "tableName": "ad_setting",
+    "dumpFile": "dump\/ad_setting.sql",
+    "index": [
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        },
+        {
+            "column_name": "id",
+            "key_name": "PRIMARY",
+            "non_uniqe": "0"
+        }
+    ],
+    "colums": [
+        {
+            "COLUMN_NAME": "id",
+            "COLUMN_TYPE": "int(11)",
+            "CHARACTER_SET_NAME": null,
+            "COLLATION_NAME": null,
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "name",
+            "COLUMN_TYPE": "text",
+            "CHARACTER_SET_NAME": "utf8",
+            "COLLATION_NAME": "utf8_bin",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "delay",
+            "COLUMN_TYPE": "int(11)",
+            "CHARACTER_SET_NAME": null,
+            "COLLATION_NAME": null,
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "ad_unit",
+            "COLUMN_TYPE": "text",
+            "CHARACTER_SET_NAME": "utf8",
+            "COLLATION_NAME": "utf8_bin",
+            "IS_NULLABLE": "NO"
+        },
+        {
+            "COLUMN_NAME": "point",
+            "COLUMN_TYPE": "int(11)",
+            "CHARACTER_SET_NAME": null,
+            "COLLATION_NAME": null,
+            "IS_NULLABLE": "NO"
+        }
+    ],
+    "default_value": [
+        "INSERT INTO ad_setting (id,name,delay,ad_unit,point) values ('1','VIDEO I','10','-','125') ",
+        "INSERT INTO ad_setting (id,name,delay,ad_unit,point) values ('2','VIDEO II','10','-','125') ",
+        "INSERT INTO ad_setting (id,name,delay,ad_unit,point) values ('3','VIDEO III','10','-','125') "
+    ]
+}
