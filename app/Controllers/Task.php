@@ -69,27 +69,64 @@ class Task extends Controller
       foreach ($_REQUEST as $key => $value) {
 				  $$key = $value;
 			}
-      $getDataMember = sqlArray(sqlQuery("select * from member where email = '$email'"));
-      if(sqlRowCount(sqlQuery("select * from absen where id_member = '".$getDataMember['id']."' and tanggal = '".date("Y-m-d")."'")) != 0){
-        $this->err = "Absen Hari ini sudah di lakukan !";
+      $this->err = "";
+      $getSettingAbsen = sqlArray(sqlQuery("select * from ad_setting where name='ABSEN'"));
+      if($getSettingAbsen['status'] != "ACTIVE"){
+        $this->err = $getSettingAbsen['error_message'];
         $this->content[] = array(
           "point" => 0
         );
-
       }else{
-        $dataInsertAbsen = array(
-          "id_member" => $getDataMember["id"],
-          "tanggal" => date("Y-m-d"),
-          "point" => 100,
-        );
-        $queryInsertAbsen = sqlInsert("absen",$dataInsertAbsen);
-        sqlQuery($queryInsertAbsen);
-        $getDataAbsen = sqlArray(sqlQuery("select * from absen where id_member = '".$getDataMember["id"]."' and tanggal = '".date("Y-m-d")."'"));
-        $this->content[] = array(
-          "point" => $getDataAbsen['point']
-        );
+        $getDataMember = sqlArray(sqlQuery("select * from member where email = '$email'"));
+        if(sqlRowCount(sqlQuery("select * from absen where id_member = '".$getDataMember['id']."' and tanggal = '".date("Y-m-d")."'")) != 0){
+          $this->err = "Absen Hari ini sudah di lakukan !";
+          $this->content[] = array(
+            "point" => 0
+          );
 
+        }else{
+          $dataInsertAbsen = array(
+            "id_member" => $getDataMember["id"],
+            "tanggal" => date("Y-m-d"),
+            "point" => $getSettingAbsen['point'],
+          );
+          $queryInsertAbsen = sqlInsert("absen",$dataInsertAbsen);
+          sqlQuery($queryInsertAbsen);
+          $getDataAbsen = sqlArray(sqlQuery("select * from absen where id_member = '".$getDataMember["id"]."' and tanggal = '".date("Y-m-d")."'"));
+          $this->content[] = array(
+            "point" => $getDataAbsen['point'],
+            "ad_unit" => $getSettingAbsen['ad_unit'],
+          );
+
+        }
       }
+      $this->cek = "";
+
+
+
+      $this->sendPayload(
+          [
+              'request' => [
+                  'method' => $_SERVER[ 'REQUEST_METHOD' ],
+                  'time'   => $_SERVER[ 'REQUEST_TIME' ],
+                  'uri'    => $_SERVER[ 'REQUEST_URI' ],
+                  'agent'  => $_SERVER[ 'HTTP_USER_AGENT' ],
+              ],
+              'cek'  => $this->cek,
+              'content'  => $this->content,
+              'err' => $this->err
+          ]
+      );
+    }
+    public function game()
+    {
+
+      foreach ($_REQUEST as $key => $value) {
+				  $$key = $value;
+			}
+      $getDataMember = sqlArray(sqlQuery("select * from member where email = '$email'"));
+      $getDataAds = sqlArray(sqlQuery("select * from ad_setting where name = '$adsName'"));
+      
       $this->cek = "";
 
 

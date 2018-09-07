@@ -33,23 +33,27 @@ class Ads extends Controller
 			}
       $getDataMember = sqlArray(sqlQuery("select * from member where email = '$email'"));
       $getDataAds = sqlArray(sqlQuery("select * from ad_setting where name = '$adsName'"));
-      $getMaxIdLasRequest = sqlArray(sqlQuery("select max(id) from log_ad_show where id_member = '".$getDataMember['id']."' and id_ad ='".$getDataAds['id']."'"));
-      $getDataLastRequest = sqlArray(sqlQuery("select * from log_ad_show where id = '".$getMaxIdLasRequest['max(id)']."'"));
-      $selisiWaktu = $this->convertTimeToInteger(date("Y-m-d").";".date("H:i")) - $this->convertTimeToInteger($getDataLastRequest['tanggal'].";".$getDataLastRequest['jam']);
-      if($selisiWaktu >  $getDataAds['delay'] ){
-        $dataInsertLogAdRequest = array(
-          "id_ad" => $getDataAds['id'],
-          "id_member" => $getDataMember['id'],
-          "tanggal" => date("Y-m-d"),
-          "jam" => date("H:i"),
-        );
-        $queryInsertLogAdRequest = sqlInsert("log_request_ad",$dataInsertLogAdRequest);
-        sqlQuery($queryInsertLogAdRequest);
-        $this->content[] = array(
-          "ads_unit" => $getDataAds['ad_unit']
-        );
+      if($getDataAds['status'] !='ACTIVE'){
+        $this->err = $getDataAds['error_message'];
       }else{
-        $this->err = "Tunggu !";
+        $getMaxIdLasRequest = sqlArray(sqlQuery("select max(id) from log_ad_show where id_member = '".$getDataMember['id']."' and id_ad ='".$getDataAds['id']."'"));
+        $getDataLastRequest = sqlArray(sqlQuery("select * from log_ad_show where id = '".$getMaxIdLasRequest['max(id)']."'"));
+        $selisiWaktu = $this->convertTimeToInteger(date("Y-m-d").";".date("H:i")) - $this->convertTimeToInteger($getDataLastRequest['tanggal'].";".$getDataLastRequest['jam']);
+        if($selisiWaktu >  $getDataAds['delay'] ){
+          $dataInsertLogAdRequest = array(
+            "id_ad" => $getDataAds['id'],
+            "id_member" => $getDataMember['id'],
+            "tanggal" => date("Y-m-d"),
+            "jam" => date("H:i"),
+          );
+          $queryInsertLogAdRequest = sqlInsert("log_request_ad",$dataInsertLogAdRequest);
+          sqlQuery($queryInsertLogAdRequest);
+          $this->content[] = array(
+            "ads_unit" => $getDataAds['ad_unit']
+          );
+        }else{
+          $this->err = "Tunggu ".$getDataAds['delay']." Menit !";
+        }
       }
 
       $this->sendPayload(
@@ -77,12 +81,13 @@ class Ads extends Controller
         "id_member" => $getDataMember['id'],
         "tanggal" => date("Y-m-d"),
         "jam" => date("H:i"),
-        "point" => 300,
+        "point" => $getDataAds['point'],
       );
+      sqlQuery("UPDATE member set saldo = saldo + ".$getDataAds['point']." where id = '".$getDataMember['id']."'");
       $queryInsertLogAdRequest = sqlInsert("log_ad_show",$dataInsertLogAdRequest);
       sqlQuery($queryInsertLogAdRequest);
       $this->content[] = array(
-        "point" => "300"
+        "point" => "".$getDataAds['point'].""
       );
       $this->cek = "select * from member where email = '$email'";
       $this->sendPayload(
@@ -102,7 +107,7 @@ class Ads extends Controller
 
     function convertTimeToInteger($concatTanggalJam){
       $explodeTanggalJamConcat = explode(";",$concatTanggalJam);
-      $integerTanggal = $this->dateToInteger($this->generateDate($explodeTanggalJamConcat[0]));
+      $integerTanggal = $this->dateToInteger($explodeTanggalJamConcat[0]);
       $integerJam = $this->timeToInteger($explodeTanggalJamConcat[1]);
       $integerValue = $integerTanggal + $integerJam;
       return $integerValue;

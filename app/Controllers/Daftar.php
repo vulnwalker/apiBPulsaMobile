@@ -140,4 +140,40 @@ class Daftar extends Controller
           ]
       );
     }
+    public function news()
+    {
+      foreach ($_REQUEST as $key => $value) {
+				  $$key = $value;
+			}
+      $this->cek = "";
+      if(sqlRowCount(sqlQuery("select * from news  limit $from,$to")) == 0){
+        $this->err = "ERROR DATA ABIS";
+      }
+      $getDataNews = sqlQuery("select * from news limit $from,$to");
+      while ($dataNews =  sqlArray($getDataNews)) {
+        $arrayNews[] = array(
+          "id" => $dataNews['id'],
+          "title" => $dataNews['title'],
+          "content" => $dataNews['content'],
+          "tanggal" => $dataNews['tanggal'],
+          "gambar" => $dataNews['gambar'],
+        );
+      }
+
+
+      $this->content = $arrayNews;
+      $this->sendPayload(
+          [
+              'request' => [
+                  'method' => $_SERVER[ 'REQUEST_METHOD' ],
+                  'time'   => $_SERVER[ 'REQUEST_TIME' ],
+                  'uri'    => $_SERVER[ 'REQUEST_URI' ],
+                  'agent'  => $_SERVER[ 'HTTP_USER_AGENT' ],
+              ],
+              'cek'  => $this->cek,
+              'content'  => $this->content,
+              'err' => $this->err
+          ]
+      );
+    }
 }

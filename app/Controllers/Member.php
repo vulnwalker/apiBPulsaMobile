@@ -163,5 +163,34 @@ class Member extends Controller
           ]
       );
     }
+    public function log()
+    {
+      foreach ($_REQUEST as $key => $value) {
+          $$key = $value;
+      }
+      $arrayDataMember = array();
+      $getDataMember = sqlArray(sqlQuery("select * from member where email = '$email'"));
+      $jumlahPenukaran = sqlRowCount(sqlQuery("select * from payment where id_member = '".$getDataMember['id']."'"));
+      $jumlahAbsen = sqlRowCount(sqlQuery("select * from absen where id_member = '".$getDataMember['id']."'"));
+      $arrayDataMember[] = array(
+        "penukaran" => "$jumlahPenukaran",
+        "absen" => "$jumlahAbsen",
+
+      );
+      $this->content = $arrayDataMember;
+      $this->sendPayload(
+          [
+              'request' => [
+                  'method' => $_SERVER[ 'REQUEST_METHOD' ],
+                  'time'   => $_SERVER[ 'REQUEST_TIME' ],
+                  'uri'    => $_SERVER[ 'REQUEST_URI' ],
+                  'agent'  => $_SERVER[ 'HTTP_USER_AGENT' ],
+              ],
+              'cek'  => $this->cek,
+              'content'  => $this->content,
+              'err' => $this->err
+          ]
+      );
+    }
 
 }
