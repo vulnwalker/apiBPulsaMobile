@@ -36,7 +36,17 @@ class Auth extends Controller
 
       if(sqlRowCount(sqlQuery("select * from member where email = '$email' and password = '".$password."'")) != 0){
         $getDataUser = sqlArray(sqlQuery("select * from member where email='$email'"));
-
+        if(!empty($getDataUser['device_code'])){
+          if($getDataUser['device_code'] != $deviceCode){
+            $this->err = "Login Gagal, Jangan Ganti HP lah !";
+          }
+        }else{
+          if(sqlRowCount(sqlQuery("select * from member where device_code = '$deviceCode'")) != 0){
+            $this->err = "Login Gagal One Phone One Account Bro !";
+          }else{
+            sqlQuery("update member set device_code = '$deviceCode' where id = '".$getDataUser['id']."'");
+          }
+        }
       }else{
         $this->err = "Login Gagal";
       }

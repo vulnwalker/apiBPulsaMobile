@@ -11,6 +11,7 @@ namespace App\Controllers;
 // ------------------------------------------------------------------------
 
 use O2System\Framework\Http\Controllers\Restful as Controller;
+use App\Helpers\ConfigClass as ConfigClass;
 
 
 /**
@@ -93,6 +94,9 @@ class Task extends Controller
           $queryInsertAbsen = sqlInsert("absen",$dataInsertAbsen);
           sqlQuery($queryInsertAbsen);
           $getDataAbsen = sqlArray(sqlQuery("select * from absen where id_member = '".$getDataMember["id"]."' and tanggal = '".date("Y-m-d")."'"));
+          sqlQuery("UPDATE member set saldo = saldo + ".$getDataAbsen['point']." where id = '".$getDataMember['id']."'");
+          $configClass = new ConfigClass;
+          $configClass->checkReferal($getDataMember['id']);
           $this->content[] = array(
             "point" => $getDataAbsen['point'],
             "ad_unit" => $getSettingAbsen['ad_unit'],
@@ -125,8 +129,7 @@ class Task extends Controller
 				  $$key = $value;
 			}
       $getDataMember = sqlArray(sqlQuery("select * from member where email = '$email'"));
-      $getDataAds = sqlArray(sqlQuery("select * from ad_setting where name = '$adsName'"));
-      
+      // $getDataAds = sqlArray(sqlQuery("select * from ad_setting where name = '$adsName'"));
       $this->cek = "";
 
 

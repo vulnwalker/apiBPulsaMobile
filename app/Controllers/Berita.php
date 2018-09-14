@@ -18,7 +18,7 @@ use O2System\Framework\Http\Controllers\Restful as Controller;
  *
  * @package \App\Controllers
  */
-class Daftar extends Controller
+class Berita extends Controller
 {
 
 
@@ -63,7 +63,7 @@ class Daftar extends Controller
           ]
       );
     }
-    public function point()
+    public function detail()
     {
 
       foreach ($_REQUEST as $key => $value) {
@@ -71,20 +71,18 @@ class Daftar extends Controller
 			}
 
       $this->cek = "";
-      $getDataTukarPoint = sqlQuery("select * from trade_point ");
-      while ($dataTukarPoint =  sqlArray($getDataTukarPoint)) {
-        $arrayTukarPoint[] = array(
-          "id" => $dataTukarPoint['id'],
-          "title" => $dataTukarPoint['title'],
-          "price" => $dataTukarPoint['price'],
-          "description" => $dataTukarPoint['description'],
-          "stock" => $dataTukarPoint['stock'],
-          "gambar" => $dataTukarPoint['gambar'],
+      $getDataBerita = sqlQuery("select * from news where id = '$idBerita' ");
+      while ($dataBerita =  sqlArray($getDataBerita)) {
+        $arrayBerita[] = array(
+          "id" => $dataBerita['id'],
+          "judulBerita" => $dataBerita['title'],
+          "contentBerita" => $dataBerita['content'],
+
         );
       }
 
 
-      $this->content = $arrayTukarPoint;
+      $this->content = $arrayBerita;
       $this->sendPayload(
           [
               'request' => [

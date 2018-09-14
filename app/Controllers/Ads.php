@@ -11,6 +11,7 @@ namespace App\Controllers;
 // ------------------------------------------------------------------------
 
 use O2System\Framework\Http\Controllers\Restful as Controller;
+use App\Helpers\ConfigClass as ConfigClass;
 
 
 /**
@@ -84,6 +85,8 @@ class Ads extends Controller
         "point" => $getDataAds['point'],
       );
       sqlQuery("UPDATE member set saldo = saldo + ".$getDataAds['point']." where id = '".$getDataMember['id']."'");
+      $configClass = new ConfigClass;
+      $configClass->checkReferal($getDataMember['id']);
       $queryInsertLogAdRequest = sqlInsert("log_ad_show",$dataInsertLogAdRequest);
       sqlQuery($queryInsertLogAdRequest);
       $this->content[] = array(

@@ -37,9 +37,18 @@ class Member extends Controller
       if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
           $this->err = "Email tidak valid !";
       }
+      $referalId = 0;
       if(empty($password))$this->err = "Isi password";
       if(empty($nama))$this->err= "Isi nama";
       if(empty($nomorTelepon))$this->err = "Isi nomor telepon";
+      if(!empty($referalEmail)){
+        if(sqlRowCount(sqlQuery("select * from member where email = '$referalEmail'")) !=0){
+          $getDataReferal = sqlArray(sqlQuery("select * from member where email='$referalEmail'"));
+          $referalId = $getDataReferal['id'];
+        }else{
+          $this->err = "Email referal tidak valid";
+        }
+      }
       if(empty($this->err)){
         $dataMember = array(
           "email" => $email,
@@ -48,6 +57,7 @@ class Member extends Controller
           "nomor_telepon" => $nomorTelepon,
           "saldo" => "0",
           "status" => 1,
+          "id_referal" => $referalId,
         );
         $queryInsertMember = sqlInsert("member",$dataMember);
         sqlQuery($queryInsertMember);
@@ -170,11 +180,17 @@ class Member extends Controller
       }
       $arrayDataMember = array();
       $getDataMember = sqlArray(sqlQuery("select * from member where email = '$email'"));
+      $referalEmail = "-";
+      if(sqlRowCount(sqlQuery("select * from member where id = '".$getDataMember['id_referal']."'")) != 0){
+        $getDataReferal = sqlArray(sqlQuery("select * from member where id = '".$getDataMember['id_referal']."'"));
+        $referalEmail = $getDataReferal['email'];
+      }
       $jumlahPenukaran = sqlRowCount(sqlQuery("select * from payment where id_member = '".$getDataMember['id']."'"));
       $jumlahAbsen = sqlRowCount(sqlQuery("select * from absen where id_member = '".$getDataMember['id']."'"));
       $arrayDataMember[] = array(
         "penukaran" => "$jumlahPenukaran",
         "absen" => "$jumlahAbsen",
+        "referalEmail" => $referalEmail,
 
       );
       $this->content = $arrayDataMember;
