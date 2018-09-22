@@ -56,7 +56,7 @@ class Member extends Controller
           "nama" => $nama,
           "nomor_telepon" => $nomorTelepon,
           "saldo" => "0",
-          "status" => 1,
+          "status" => "ACTIVE",
           "id_referal" => $referalId,
         );
         $queryInsertMember = sqlInsert("member",$dataMember);
