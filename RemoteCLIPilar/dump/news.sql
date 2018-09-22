@@ -16,20 +16,19 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `payment`
+-- Table structure for table `news`
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `payment` (
+CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_member` text COLLATE utf8_bin NOT NULL,
-  `id_trade_point` int(11) NOT NULL,
+  `title` text COLLATE utf8_bin NOT NULL,
+  `content` longtext COLLATE utf8_bin NOT NULL,
   `tanggal` date NOT NULL,
-  `jam` text COLLATE utf8_bin NOT NULL,
-  `status` text COLLATE utf8_bin NOT NULL,
+  `gambar` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=207 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

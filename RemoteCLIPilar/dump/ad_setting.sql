@@ -27,8 +27,10 @@ CREATE TABLE `ad_setting` (
   `delay` int(11) NOT NULL,
   `ad_unit` text COLLATE utf8_bin NOT NULL,
   `point` int(11) NOT NULL,
+  `error_message` text COLLATE utf8_bin NOT NULL,
+  `status` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -40,4 +42,4 @@ CREATE TABLE `ad_setting` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-23  9:39:39
+-- Dump completed on 2018-09-22 21:41:36
